@@ -1,4 +1,4 @@
-#    Copyright [2022] [chou.o.ning@gmail.com]
+#    Copyright [2022, chou.o.ning@gmail.com]
 
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -75,8 +75,7 @@ while True:
                         if param['window_status'] == 'close':
                                 _LOGGER.warning("door close at: " + str(int(time.time())))
                                 if message_send == 1:
-                                        res = pusher.send_message('告警消除：门已关闭', 
-                                                uids=[UID,], topic_ids = [TOPIC_IDs,])
+                                        res = pusher.send_message('告警消除：门已关闭', uids=[UID,], topic_ids = [TOPIC_IDs,])
                                         _LOGGER.warning(res)
                                         _LOGGER.warning('告警消除：门已关闭')
                                 open_time = 0
@@ -84,21 +83,18 @@ while True:
 
         # 门开了，还没有关，超出了 TIME_OF_OPEN
         if (message_send == 0) and (open_time > 0) and (int(time.time()) - open_time > TIME_OF_OPEN):
-                res = pusher.send_message('告警：门开启超过' + str(TIME_OF_OPEN) + '秒', 
-                        uids=[UID,], topic_ids = [TOPIC_IDs,])
+                res = pusher.send_message('告警：门开启超过' + str(TIME_OF_OPEN) + '秒', uids=[UID,], topic_ids = [TOPIC_IDs,])
                 _LOGGER.warning(res)
                 _LOGGER.warning('告警：门开启超过' + str(TIME_OF_OPEN) + '秒')
                 message_send = 1
 
+    except BlockingIOError: 
         # 每日中午午饭提醒，表明程序还在正常运行
         localtime = time.localtime(time.time())
         if (message_send_noon == 0) and (localtime.tm_hour == 12) and (localtime.tm_min == 0) and (localtime.tm_sec == 0):
-                res = pusher.send_message('午饭提醒', 
-                uids=[UID,], topic_ids = [TOPIC_IDs,])
+                res = pusher.send_message('午饭提醒', uids=[UID,], topic_ids = [TOPIC_IDs,])
                 _LOGGER.warning(res)
                 message_send_noon = 1
         if (localtime.tm_hour == 12) and (localtime.tm_min == 1) and (localtime.tm_sec == 0):
                 message_send_noon = 0
-
-    except BlockingIOError: 
         time.sleep(0.1)
