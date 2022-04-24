@@ -1,4 +1,4 @@
-#    Copyright [2022, chou.o.ning@gmail.com]
+#    Copyright [2022, ning]
 
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ TIME_OF_OPEN = 30  # 门开启的时间，超过则推送告警信息
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(filename = "logfile.log",
-                    filemode = "w",
+                    filemode = "a",
                     format = Log_Format, 
                     level = logging.WARNING)
 
